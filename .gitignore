@@ -1,0 +1,27 @@
+# Ignore WordPress core files (mounted from container)
+wordpress/wp-content/uploads/
+wordpress/wp-content/cache/
+wordpress/wp-config.php
+
+# Ignore MySQL database files
+mysql/
+
+# Ignore Docker-related files
+*.log
+*.pid
+*.sock
+
+# Ignore .env or environment config files if any
+.env
+.env.local
+
+# Node / PHP / system files (in case)
+node_modules/
+vendor/
+.DS_Store
+Thumbs.db
+
+# VSCode or IDE configs
+.vscode/
+.idea/
+
