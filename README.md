@@ -12,13 +12,15 @@ This project sets up a local development environment using **Docker Compose** th
 ---
 
 ## 📁 Project Structure
+
+```
 project-root/
 ├── docker-compose.yml
 ├── .env
 ├── .gitignore
 ├── wordpress/        # Mounted WordPress content
 └── mysql/            # MySQL database files
-
+```
 ---
 
 ## ⚙️ Requirements
