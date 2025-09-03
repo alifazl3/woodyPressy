@@ -5,15 +5,15 @@ services:
     image: wordpress:latest
     restart: always
     ports:
-      - "8111:80"
+      - "0:80"
     environment:
       WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
     volumes:
-      - ./wordpress:/var/www/html
-      - ./php.ini:/usr/local/etc/php/conf.d/custom-php.ini 
+      - wp_data:/var/www/html
+      - ./php.ini:/usr/local/etc/php/conf.d/custom-php.ini
     networks:
       - wpnet
 
@@ -25,8 +25,10 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "0:3306"
     volumes:
-      - ./mysql:/var/lib/mysql
+      - db_data:/var/lib/mysql
     networks:
       - wpnet
 
@@ -34,7 +36,7 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - "8112:80"
+      - "0:80"
     environment:
       PMA_HOST: ${WORDPRESS_DB_HOST}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -44,3 +46,7 @@ services:
 networks:
   wpnet:
     driver: bridge
+
+volumes:
+  db_data:
+  wp_data:
