@@ -44,3 +44,14 @@ WORDPRESS_DB_HOST=db
 WORDPRESS_DB_NAME=wordpress
 WORDPRESS_DB_USER=wordpress
 WORDPRESS_DB_PASSWORD=wordpress
+```
+
+## 🚀 Quick Start
+
+Spin up a fresh WordPress stack with random ports:
+
+```bash
+./new-wordpress.sh apple-silicon/docker-compose.yml
+```
+
+Each run creates a new project name so you always get a clean WordPress instance and it prints the ports for WordPress, MySQL, and phpMyAdmin.
