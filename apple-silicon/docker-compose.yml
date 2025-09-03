@@ -1,32 +1,30 @@
-version: '3.8'
-
 services:
   wordpress:
     image: wordpress:latest
     restart: always
     ports:
-      - "8111:80"
+      - "${PORT_WP}:80"
     environment:
-      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST:-db}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-password}
     volumes:
-      - ./wordpress:/var/www/html
-      - ./php.ini:/usr/local/etc/php/conf.d/custom-php.ini 
+      - ./${INSTANCE_NAME:-wp_instance}/wordpress:/var/www/html
+      - ./${INSTANCE_NAME:-wp_instance}/php.ini:/usr/local/etc/php/conf.d/custom-php.ini
     networks:
       - wpnet
 
   db:
-    image: mysql/mysql-server:5.7   # ← multi-arch image (supports ARM64)
+    image: mysql/mysql-server:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-wordpress}
+      MYSQL_USER: ${MYSQL_USER:-wordpress}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./${INSTANCE_NAME:-wp_instance}/mysql:/var/lib/mysql
     networks:
       - wpnet
 
@@ -34,10 +32,10 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - "8112:80"
+      - "${PORT_PMA}:80"
     environment:
-      PMA_HOST: ${WORDPRESS_DB_HOST}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PMA_HOST: ${WORDPRESS_DB_HOST:-db}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
     networks:
       - wpnet
 
